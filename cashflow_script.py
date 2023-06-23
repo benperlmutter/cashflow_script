@@ -3,17 +3,18 @@ import sys, getopt
 
 # scenario = sys.argv[1]
 
-for j in range(50, 56):
+for j in range(50, 53):
 	s="hello"
 	incAlph = "K"
 	inc = ""
 	lastInc = ""
 	cusp = False
+	resetAlph = False
 
-	for i in range(1,26):
+	for i in range(1,32):
 
 		nextAlph = chr(ord(incAlph)+3)
-		if ord(nextAlph) > ord("Y"):
+		if ord(nextAlph) > ord("X"):
 			# print(ord("A"))
 			# print(ord(incAlph)+3)
 			# print(ord("Z"))
@@ -27,7 +28,20 @@ for j in range(50, 56):
 			nextAlph = chr(ord(incAlph)+3 - 26)
 			cusp = True
 
-		
+		if nextAlph == "@":
+			oldAlph = "@"
+			oldInc = inc
+			nextAlph = "Z"
+			inc = ""
+			resetAlph = True
+
+		if nextAlph == "?":
+			oldAlph = "@"
+			oldInc = inc
+			nextAlph = "Y"
+			inc = "B"
+			resetAlph = True
+
 		s+=" ; =C"+str(j)
 
 		if cusp:
@@ -46,6 +60,9 @@ for j in range(50, 56):
 
 		incAlph = nextAlph
 		cusp = False
+		# if resetAlph:
+		# 	nextAlph = oldAlph
+		# 	inc = oldInc
 
 	print(s)
 
