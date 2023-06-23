@@ -3,17 +3,17 @@ import sys, getopt
 
 # scenario = sys.argv[1]
 
-s="hello"
-incAlph = "K"
-inc = ""
-cusp = False
-
-for j in range(50, 100):
+for j in range(50, 56):
+	s="hello"
+	incAlph = "K"
+	inc = ""
+	lastInc = ""
+	cusp = False
 
 	for i in range(1,26):
 
 		nextAlph = chr(ord(incAlph)+3)
-		if ord(nextAlph) > ord("Z"):
+		if ord(nextAlph) > ord("Y"):
 			# print(ord("A"))
 			# print(ord(incAlph)+3)
 			# print(ord("Z"))
@@ -22,22 +22,27 @@ for j in range(50, 100):
 			if inc=="":
 				inc = "A"
 			else:
+				lastInc = inc
 				inc = chr(ord(inc)+1)
 			nextAlph = chr(ord(incAlph)+3 - 26)
 			cusp = True
 
 		
-		s+=" ; =C"+chr(j)
+		s+=" ; =C"+str(j)
 
 		if cusp:
-			s+=" ; =IF(AND(C"+chr(j)+"=\"Inflow\", OR(AND("+incAlph+"48>=E"+chr(j)+",F"+chr(j)+"=\"Y\"),AND(E"+chr(j)+">="+incAlph+"48,E"+chr(j)+"<"+inc+nextAlph+"48))),D"+chr(j)+",0)"
+			s+=" ; =IF(AND(C"+str(j)+"=\"Inflow\", OR(AND("+lastInc+incAlph+"48>=E"+str(j)+",F"+str(j)+"=\"Y\"),AND(E"+str(j)+">="+lastInc+incAlph+"48,E"+str(j)+"<"+inc+nextAlph+"48))),D"+str(j)+",0)"
 		else:
-			s+=" ; =IF(AND(C"+chr(j)+"=\"Inflow\", OR(AND("+inc+incAlph+"48>=E"+chr(j)+",F"+chr(j)+"=\"Y\"),AND(E"+chr(j)+">="+inc+incAlph+"48,E"+chr(j)+"<"+inc+nextAlph+"48))),D"+chr(j)+",0)"
+			if ord(nextAlph) > ord("Z"):
+				nextAlph = chr(ord(nextAlph)-1)
+			s+=" ; =IF(AND(C"+str(j)+"=\"Inflow\", OR(AND("+inc+incAlph+"48>=E"+str(j)+",F"+str(j)+"=\"Y\"),AND(E"+str(j)+">="+inc+incAlph+"48,E"+str(j)+"<"+inc+nextAlph+"48))),D"+str(j)+",0)"
 
 		if cusp:
-			s+=" ; =IF(AND(C"+chr(j)+"=\"Outflow\", OR(AND("+incAlph+"48>=E"+chr(j)+",F"+chr(j)+"=\"Y\"),AND(E"+chr(j)+">="+incAlph+"48,E"+chr(j)+"<"+inc+nextAlph+"48))),D"+chr(j)+",0)"
+			s+=" ; =IF(AND(C"+str(j)+"=\"Outflow\", OR(AND("+lastInc+incAlph+"48>=E"+str(j)+",F"+str(j)+"=\"Y\"),AND(E"+str(j)+">="+lastInc+incAlph+"48,E"+str(j)+"<"+inc+nextAlph+"48))),D"+str(j)+",0)"
 		else:
-			s+=" ; =IF(AND(C"+chr(j)+"=\"Outflow\", OR(AND("+inc+incAlph+"48>=E"+chr(j)+",F"+chr(j)+"=\"Y\"),AND(E"+chr(j)+">="+inc+incAlph+"48,E"+chr(j)+"<"+inc+nextAlph+"48))),D"+chr(j)+",0)"
+			if ord(nextAlph) > ord("Z"):
+				nextAlph = chr(ord(nextAlph)-1)
+			s+=" ; =IF(AND(C"+str(j)+"=\"Outflow\", OR(AND("+inc+incAlph+"48>=E"+str(j)+",F"+str(j)+"=\"Y\"),AND(E"+str(j)+">="+inc+incAlph+"48,E"+str(j)+"<"+inc+nextAlph+"48))),D"+str(j)+",0)"
 
 		incAlph = nextAlph
 		cusp = False
