@@ -42,7 +42,7 @@ for j in range(50, 70):
 			inc = "B"
 			resetAlph = True
 
-		s+=" ; =C"+str(j)
+		s+=" ; =B"+str(j)
 
 		if cusp:
 			s+=" ; =IF(AND(C"+str(j)+"=\"Inflow\", OR(AND("+lastInc+incAlph+"48>=E"+str(j)+",F"+str(j)+"=\"Y\"),AND(E"+str(j)+">="+lastInc+incAlph+"48,E"+str(j)+"<"+inc+nextAlph+"48))),D"+str(j)+",0)"
